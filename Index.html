@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manish Chaudhary — Voiceover Artist & AI Audio Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Unbounded:wght@200;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --gold: #c49a4a;
+      --gold-light: #e8c97a;
+      --rust: #8b3a1a;
+      --slate: #2a2a2a;
+      --mid: #5a5a5a;
+      --faint: #b8b0a0;
+      --wave: #c49a4a22;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.25s ease;
+      opacity: 0.6;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3.5rem;
+      background: transparent;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gold);
+    }
+    .nav-logo {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--ink);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 4rem 6rem 5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+    .hero-name span { color: var(--gold); }
+    .hero-titles {
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+    .hero-title-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+    .hero-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+    .hero-tagline {
+      font-size: 1.05rem;
+      color: var(--slate);
+      max-width: 420px;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .hero-contact {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--mid);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.95s forwards;
+    }
+    .hero-contact a { color: var(--gold); text-decoration: none; }
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.85rem 2.2rem;
+      border: 1px solid var(--gold);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: all 0.3s;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.1s forwards;
+      width: fit-content;
+    }
+    .hero-cta:hover {
+      background: var(--gold);
+      color: var(--paper);
+    }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .waveform-visual {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .waveform-visual svg {
+      width: 110%;
+      height: 80%;
+      opacity: 0;
+      animation: fadeIn 2s 0.5s forwards;
+    }
+    .hero-right-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+    }
+    .big-initial {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(12rem, 22vw, 18rem);
+      font-weight: 300;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--gold);
+      opacity: 0.18;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: fadeIn 1.5s 0.3s forwards;
+      opacity: 0;
+    }
+    .sound-rings {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-ring 3s ease-out infinite;
+      opacity: 0;
+    }
+    .ring:nth-child(1) { width: 160px; height: 160px; animation-delay: 0s; }
+    .ring:nth-child(2) { width: 260px; height: 260px; animation-delay: 0.8s; }
+    .ring:nth-child(3) { width: 380px; height: 380px; animation-delay: 1.6s; }
+    .ring:nth-child(4) { width: 520px; height: 520px; animation-delay: 2.4s; }
+
+    .hero-mic-icon {
+      position: relative;
+      z-index: 3;
+      width: 64px; height: 64px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s 1s forwards;
+      opacity: 0;
+    }
+    .hero-mic-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+
+    /* SECTIONS */
+    section {
+      padding: 7rem 5rem;
+      position: relative;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: var(--gold);
+    }
+    .section-heading {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+    .section-heading em {
+      font-style: italic;
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3em;
+      font-weight: 300;
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    #about .section-label { color: var(--gold); }
+    #about .section-heading { color: var(--paper); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-body {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #c8c0b0;
+      line-height: 1.9;
+    }
+    .about-body p + p { margin-top: 1.4rem; }
+    .about-body strong { color: var(--gold); font-weight: 400; }
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .stat {
+      border-left: 2px solid var(--gold);
+      padding-left: 1.5rem;
+    }
+    .stat-number {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 200;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* EXPERIENCE */
+    #experience { background: var(--paper); }
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 3rem;
+      padding: 3rem 0;
+      border-top: 1px solid var(--cream);
+      position: relative;
+      transition: all 0.3s;
+    }
+    .exp-item:hover { background: transparent; }
+    .exp-item:hover .exp-number { color: var(--gold); }
+    .exp-meta { padding-top: 0.4rem; }
+    .exp-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--faint);
+      margin-bottom: 0.8rem;
+      transition: color 0.3s;
+    }
+    .exp-company {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .exp-period {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--faint);
+      letter-spacing: 0.1em;
+    }
+    .exp-content {}
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .exp-desc {
+      font-size: 0.97rem;
+      color: var(--mid);
+      font-weight: 300;
+      line-height: 1.85;
+    }
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+    .exp-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--cream);
+      color: var(--mid);
+      border-radius: 100px;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--cream); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .skill-card {
+      background: var(--paper);
+      padding: 2.5rem;
+      border: 1px solid transparent;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--gold);
+      transition: height 0.4s;
+    }
+    .skill-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .skill-card:hover::before { height: 100%; }
+    .skill-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .skill-card-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .skill-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .skill-items li {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .skill-items li::before {
+      content: '';
+      width: 5px; height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* SERVICES */
+    #services { background: var(--ink); }
+    #services .section-label { color: var(--gold); }
+    #services .section-heading { color: var(--paper); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: #222;
+    }
+    .service-card {
+      background: var(--ink);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 3rem; right: 3rem;
+      height: 1px;
+      background: #2a2a2a;
+    }
+    .service-card:hover { background: #141414; }
+    .service-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--paper);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .service-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      line-height: 1.9;
+      color: #888;
+      letter-spacing: 0.05em;
+    }
+    .service-arrow {
+      position: absolute;
+      right: 3rem;
+      top: 3rem;
+      font-size: 1.5rem;
+      color: #333;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .service-card:hover .service-arrow { color: var(--gold); transform: translate(4px, -4px); }
+
+    /* ACHIEVEMENTS */
+    #achievements { background: var(--paper); }
+    .achievements-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .achievement-item {
+      display: flex;
+      gap: 1.5rem;
+      padding: 2rem;
+      border: 1px solid var(--cream);
+      transition: border-color 0.3s;
+    }
+    .achievement-item:hover { border-color: var(--gold); }
+    .achievement-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .achievement-text h4 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .achievement-text p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--mid);
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+
+    /* CONTACT / CLOSING */
+    #contact {
+      background: var(--cream);
+      text-align: center;
+      padding: 9rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-bg-text {
+      position: absolute;
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(8rem, 18vw, 16rem);
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(196,154,74,0.12);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .contact-inner { position: relative; z-index: 2; }
+    .contact-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.5;
+    }
+    .contact-quote strong { color: var(--gold); font-style: normal; font-weight: 400; }
+    .contact-email {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--mid);
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+    .contact-email a { color: var(--gold); text-decoration: none; }
+    .contact-btn {
+      display: inline-block;
+      padding: 1.1rem 3rem;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .contact-btn:hover { background: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      padding: 2.5rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-name {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: #444;
+      text-transform: uppercase;
+    }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: #444;
+      letter-spacing: 0.1em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse-ring {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+      70% { opacity: 0.2; }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 8rem 2.5rem 5rem; }
+      section { padding: 5rem 2.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.8rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .achievements-list { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Manish Chaudhary</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Portfolio · 2025</div>
+    <h1 class="hero-name">Manish<br /><span>Chaudhary</span></h1>
+    <div class="hero-titles">
+      <div class="hero-title-line">Freelance Voiceover Artist</div>
+      <div class="hero-title-line">Multilingual AI Trainer</div>
+      <div class="hero-title-line">Audio Quality Specialist</div>
+    </div>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">Crafting voice data that sounds human — because it is. Hindi · Hinglish · Indian English, built for the next generation of AI.</p>
+    <div class="hero-contact">
+      Available for collaborations ·
+      <a href="mailto:manishchoudhary7984534829@gmail.com">manishchoudhary7984534829@gmail.com</a>
+    </div>
+
+  </div>
+  <div class="hero-right">
+    <div class="sound-rings">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <div class="big-initial">M</div>
+    <div class="hero-right-text">
+      <div class="hero-mic-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 1C10.34 1 9 2.34 9 4v8c0 1.66 1.34 3 3 3s3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-1 3c0-.55.45-1 1-1s1 .45 1 1v8c0 .55-.45 1-1 1s-1-.45-1-1V4zM19 12c0 3.31-2.69 6-6 7V22h-2v-3c-3.31-.48-6-3.33-6-7H7c0 2.76 2.24 5 5 5s5-2.24 5-5h2z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 · About</div>
+  <h2 class="section-heading">The Voice Behind<br /><em>the Data</em></h2>
+  <div class="about-grid reveal">
+    <div class="about-body">
+      <p>I am <strong>Manish Chaudhary</strong> — a freelance voiceover artist, multilingual AI trainer, and audio quality specialist based in India, with over three years of professional experience at the intersection of voice performance and artificial intelligence.</p>
+      <p>My voice work spans <strong>Hindi, Hinglish, and Indian English</strong>, with a track record of delivering studio-quality recordings for global AI companies including ElevenLabs, Babel Audio, Alignerr, DIP Audio, and Agents Only Technologies. My recordings power speech recognition systems, text-to-speech engines, and conversational AI models.</p>
+      <p>Beyond the microphone, I bring deep expertise in <strong>audio quality assurance</strong> — evaluating datasets against precise technical parameters including RMS loudness, clipping thresholds, DC offset, and sample rate consistency. I understand both the performance and the engineering side of voice data.</p>
+      <p>Whether you need a voice talent who can deliver natural, culturally authentic speech, a QA specialist who can audit an entire audio dataset, or an AI trainer who speaks the language of both linguistics and machine learning — <strong>I am built for that work.</strong></p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years in Voiceover & AI Audio</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">1000+</div>
+        <div class="stat-label">Usability Tests Completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">Global AI Companies Served</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Languages · Hindi · Hinglish · Indian English</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">02 · Experience</div>
+  <h2 class="section-heading">Where I've<br /><em>Performed</em></h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">01</div>
+        <div class="exp-company">ElevenLabs</div>
+        <div class="exp-period">Jan 2026 – Present</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Hindi Transcriptionist & Speech QA</div>
+        <div class="exp-desc">Transcribed Hindi audio datasets with high accuracy, preserving grammar, punctuation, and contextual meaning. Reviewed and validated AI-generated speech outputs for linguistic accuracy, pronunciation, and fluency. Evaluated tone, clarity, and naturalness of voice outputs — contributing directly to enhanced user experience in ElevenLabs' voice generation systems. Worked with multilingual datasets aligned to cultural and linguistic nuances of Indian languages.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Hindi STT/TTS</span>
+          <span class="exp-tag">Speech QA</span>
+          <span class="exp-tag">Linguistic Validation</span>
+          <span class="exp-tag">AI Voice Systems</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">02</div>
+        <div class="exp-company">Extrian</div>
+        <div class="exp-period">Jan 2026 – Present · San Francisco</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Multilingual Audio QA Tester</div>
+        <div class="exp-desc">Conduct quality assurance testing on multilingual audio datasets spanning Indian languages. Evaluate audio files against key technical parameters — RMS loudness, clipping, DC offset, and sample rate consistency. Perform detailed audio inspections to identify distortions, background noise, and recording inconsistencies. Maintain structured documentation and QA reports, collaborating with annotation and AI training teams to uphold dataset integrity for speech and language models.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Audio QA</span>
+          <span class="exp-tag">Indian Languages</span>
+          <span class="exp-tag">RMS / Clipping Analysis</span>
+          <span class="exp-tag">Dataset QA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">03</div>
+        <div class="exp-company">Babel Audio</div>
+        <div class="exp-period">Oct 2025 – Present · San Francisco</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">AI Trainer & Hindi Voice Data Specialist</div>
+        <div class="exp-desc">Trained and evaluated AI models using Hindi and Hinglish audio datasets, ensuring natural speech patterns and linguistic accuracy. Reviewed and annotated audio for clarity, pronunciation, fluency, and contextual correctness. Identified and corrected inconsistencies including accents, tone, and code-switching between Hindi and English — contributing to improved speech recognition and conversational AI model performance.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Hindi Voiceover</span>
+          <span class="exp-tag">Hinglish</span>
+          <span class="exp-tag">Code-Switching</span>
+          <span class="exp-tag">AI Model Training</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">04</div>
+        <div class="exp-company">Agents Only Technologies</div>
+        <div class="exp-period">Dec 2025 – Present · Vancouver</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Podcast-Style Voiceover Artist (Indian Accent)</div>
+        <div class="exp-desc">Recorded scripted podcast-style English audio in Indian accent for AI training datasets, delivering natural and engaging performances. Used Riverside to produce studio-grade audio with clean voice separation and minimal noise. Maintained precision in pronunciation, pacing, tone, and conversational flow — ensuring recordings matched real-world podcast authenticity. All outputs delivered as clean WAV with balanced loudness, no clipping, and full script adherence.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Podcast Recording</span>
+          <span class="exp-tag">Indian English Accent</span>
+          <span class="exp-tag">Riverside Studio</span>
+          <span class="exp-tag">TTS / STT Data</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">05</div>
+        <div class="exp-company">Outlier (Scale AI)</div>
+        <div class="exp-period">May 2025 – Present · San Francisco</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">AI Trainer — Hindi Language Projects</div>
+        <div class="exp-desc">Contributed to multiple AI training initiatives including Hindi Guitar Pinstripe and Project Aether. Performed data annotation, content evaluation, and response ranking to improve AI-generated outputs. Reviewed and refined Hindi and Hinglish text and audio data for accuracy, fluency, and cultural relevance. Evaluated AI responses for quality, coherence, and adherence to linguistic standards — providing structured feedback that directly enhanced model performance.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Data Annotation</span>
+          <span class="exp-tag">Hindi NLP</span>
+          <span class="exp-tag">RLHF / Response Ranking</span>
+          <span class="exp-tag">Content Evaluation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">06</div>
+        <div class="exp-company">Freelance Voiceover</div>
+        <div class="exp-period">Apr 2023 – Present · India</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Voiceover Artist — Babel Audio · Alignerr · DIP Audio · YouTube</div>
+        <div class="exp-desc">Delivered Hindi and Hinglish voice recordings for AI training and speech dataset projects via Babel Audio. Collaborated with Alignerr and DIP Audio as a voice actor for natural, accurate voice data collection. Completed voiceover work for YouTube channels and independent clients, including narration, promotional content, and scripted recordings. Skilled in voice modulation, clear pronunciation, and maintaining consistency across diverse voiceover formats.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Voice Modulation</span>
+          <span class="exp-tag">Narration</span>
+          <span class="exp-tag">YouTube VO</span>
+          <span class="exp-tag">Promotional Audio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-number">07</div>
+        <div class="exp-company">UserTesting · uTest · Applause · Dscout</div>
+        <div class="exp-period">Jan 2023 – Present · Global</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Usability Tester & Audio UX Evaluator</div>
+        <div class="exp-desc">Completed 1,000+ usability tests on AI tools, SaaS dashboards, and mobile apps — consistently driving up to 40% improvements in user satisfaction by identifying critical UX flaws. Reported 100+ functional, performance, and usability bugs for global web, mobile, AI, and SaaS clients. Specialized in first-launch, onboarding, and feature adoption studies, providing qualitative and quantitative insights before critical product releases.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">UX Testing</span>
+          <span class="exp-tag">Bug Reporting</span>
+          <span class="exp-tag">AI Product QA</span>
+          <span class="exp-tag">Mobile Testing</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">03 · Skills</div>
+  <h2 class="section-heading">The Craft<br /><em>Behind the Voice</em></h2>
+  <div class="skills-grid">
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🎙️</span>
+      <div class="skill-card-title">Voice Performance</div>
+      <ul class="skill-items">
+        <li>Hindi & Hinglish voiceover</li>
+        <li>Indian English accent delivery</li>
+        <li>Voice modulation & tonal control</li>
+        <li>Character & narration performance</li>
+        <li>Podcast-style conversational VO</li>
+        <li>Promotional & scripted recordings</li>
+      </ul>
+    </div>
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🔊</span>
+      <div class="skill-card-title">Audio Quality Assurance</div>
+      <ul class="skill-items">
+        <li>RMS loudness evaluation</li>
+        <li>Clipping & DC offset detection</li>
+        <li>Sample rate consistency checks</li>
+        <li>Background noise identification</li>
+        <li>WAV format & technical standards</li>
+        <li>Dataset QA documentation</li>
+      </ul>
+    </div>
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🤖</span>
+      <div class="skill-card-title">AI Speech Training</div>
+      <ul class="skill-items">
+        <li>STT & TTS dataset creation</li>
+        <li>Data annotation & labeling</li>
+        <li>Response ranking (RLHF)</li>
+        <li>Linguistic accuracy evaluation</li>
+        <li>Code-switching (Hindi–English)</li>
+        <li>AI model feedback & refinement</li>
+      </ul>
+    </div>
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🌐</span>
+      <div class="skill-card-title">Multilingual Expertise</div>
+      <ul class="skill-items">
+        <li>Hindi (fluent)</li>
+        <li>Hinglish (native naturalistic)</li>
+        <li>Indian English (accented VO)</li>
+        <li>Cultural & linguistic nuance</li>
+        <li>Regional accent awareness</li>
+        <li>Spanish (elementary, learning)</li>
+      </ul>
+    </div>
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🎚️</span>
+      <div class="skill-card-title">Studio & Tools</div>
+      <ul class="skill-items">
+        <li>Riverside (studio recording)</li>
+        <li>Clean WAV production</li>
+        <li>Script adherence & pacing</li>
+        <li>Pronunciation consistency</li>
+        <li>Noise-controlled environments</li>
+        <li>Audio formatting standards</li>
+      </ul>
+    </div>
+
+    <div class="skill-card reveal">
+      <span class="skill-card-icon">🧪</span>
+      <div class="skill-card-title">Usability & QA Testing</div>
+      <ul class="skill-items">
+        <li>Web, mobile & SaaS testing</li>
+        <li>AI product UX evaluation</li>
+        <li>Bug reporting & documentation</li>
+        <li>First-launch & onboarding studies</li>
+        <li>Qualitative & quantitative insights</li>
+        <li>UserTesting, Applause, uTest, Dscout</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">04 · Services</div>
+  <h2 class="section-heading">What I<br /><em>Deliver</em></h2>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <div class="service-title">Hindi & Hinglish Voiceover for AI Datasets</div>
+      <div class="service-desc">Studio-quality Hindi and Hinglish recordings tailored for STT and TTS training datasets. Natural pacing, culturally authentic delivery, and full script adherence. Ideal for AI speech companies building Indian language models.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">02</div>
+      <div class="service-title">Indian English Podcast-Style VO</div>
+      <div class="service-desc">Podcast-format English recordings in Indian accent — conversational, natural, and engaging. Delivered as clean WAV via Riverside. Perfect for companies building speech recognition systems that need real-world Indian English voice data.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">03</div>
+      <div class="service-title">Audio Dataset Quality Assurance</div>
+      <div class="service-desc">End-to-end QA for audio datasets across Indian languages. Technical evaluation of RMS loudness, clipping, DC offset, and sample rate. Detailed reporting with structured documentation. For AI companies, data annotation platforms, and government speech initiatives.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">04</div>
+      <div class="service-title">Narration & Freelance Voiceover</div>
+      <div class="service-desc">Professional narration and scripted voiceover for YouTube channels, e-learning content, promotional videos, and corporate productions. Versatile delivery: authoritative, warm, conversational, or dramatic — tailored to your creative brief.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">05</div>
+      <div class="service-title">AI Model Training & Annotation</div>
+      <div class="service-desc">Hindi and Hinglish data annotation, response evaluation, content ranking, and linguistic QA for large language and speech models. Experienced with prompt-based tasks, RLHF workflows, and multilingual dataset curation for major AI platforms.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-number">06</div>
+      <div class="service-title">Usability & UX Testing</div>
+      <div class="service-desc">In-depth usability testing for AI tools, SaaS platforms, and mobile applications. Qualitative and quantitative insights with actionable bug reports. Available for first-launch studies, onboarding evaluations, and feature adoption assessments.</div>
+      <div class="service-arrow">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-label">05 · Achievements</div>
+  <h2 class="section-heading">Selected<br /><em>Milestones</em></h2>
+  <div class="achievements-list">
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">🏆</div>
+      <div class="achievement-text">
+        <h4>1,000+ Usability Tests Delivered</h4>
+        <p>Completed over a thousand usability tests on AI products, SaaS platforms, and mobile apps — consistently ranked among top contributors on UserTesting, Applause, and uTest.</p>
+      </div>
+    </div>
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">📈</div>
+      <div class="achievement-text">
+        <h4>40% UX Improvement for Clients</h4>
+        <p>Drove up to 40% improvements in user satisfaction scores by pinpointing and reporting critical UX flaws and friction points before public product releases.</p>
+      </div>
+    </div>
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">🎙️</div>
+      <div class="achievement-text">
+        <h4>Active on 5+ Global AI Audio Platforms</h4>
+        <p>Simultaneously contributing voiceover and QA work to ElevenLabs, Babel Audio, Extrian, Outlier, and Agents Only Technologies — across India, US, UK, and Canada.</p>
+      </div>
+    </div>
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">🤖</div>
+      <div class="achievement-text">
+        <h4>Hindi AI Projects: Guitar Pinstripe & Aether</h4>
+        <p>Contributed to landmark Hindi language AI training initiatives at Outlier (Scale AI), including Project Aether and Hindi Guitar Pinstripe — advancing Indian language NLP capabilities.</p>
+      </div>
+    </div>
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">🌏</div>
+      <div class="achievement-text">
+        <h4>Meta AI & Google AI Product Contributor</h4>
+        <p>Provided feedback and testing contributions for products developed by Meta AI and Google AI — supporting the development and optimization of cutting-edge technology at scale.</p>
+      </div>
+    </div>
+
+    <div class="achievement-item reveal">
+      <div class="achievement-icon">🔍</div>
+      <div class="achievement-text">
+        <h4>100+ Bugs Reported for Global Clients</h4>
+        <p>Identified and documented over 100 functional, performance, and usability bugs across web, mobile, AI, and SaaS products — saving clients significant resources before public launches.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg-text">VOICE</div>
+  <div class="contact-inner reveal">
+    <p class="contact-quote">
+      "Every dataset is only as good as the <strong>voice behind it.</strong> Let's build something that sounds unmistakably human."
+    </p>
+    <span class="contact-email">
+      Available for freelance, contract & long-term engagements ·
+      <a href="mailto:manishchoudhary7984534829@gmail.com">manishchoudhary7984534829@gmail.com</a>
+    </span>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Manish Chaudhary · Voiceover & AI Audio</div>
+  <div class="footer-copy">© 2025 · All rights reserved</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
